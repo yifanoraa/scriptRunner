@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yliu.elasticjob.Mapper.UserMapper" >
+    <sql id="BASE_TABLE">
+    testuser
+  </sql>
+    <sql id="BASE_COLUMN">
+    id,name
+  </sql>
+    <insert id="insert" parameterType="com.yliu.elasticjob.Model.User" >
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{name}
+        </trim>
+    </insert>
+
+</mapper>

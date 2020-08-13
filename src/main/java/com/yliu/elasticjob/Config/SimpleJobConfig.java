@@ -1,9 +1,11 @@
 package com.yliu.elasticjob.Config;
+
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.event.JobEventConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
@@ -23,6 +25,9 @@ public class SimpleJobConfig {
     @Resource
     private JobEventConfiguration jobEventConfiguration;
 
+    @Resource
+    public ElasticJobListener myListener;
+
     @Bean
     public SimpleJob simpleJob() {
         return new SpringSimpleJob();
@@ -34,7 +39,7 @@ public class SimpleJobConfig {
                                            @Value("${simpleJob.shardingTotalCount}") final int shardingTotalCount) {
         return new SpringJobScheduler(simpleJob, regCenter,
                 getLiteJobConfiguration(simpleJob.getClass(), cron, shardingTotalCount)
-                , jobEventConfiguration);
+                , jobEventConfiguration, myListener);
     }
 
     private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass,
