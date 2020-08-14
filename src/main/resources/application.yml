@@ -8,7 +8,7 @@ spring:
     druid:
       filters: stat
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+      url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
       username: root
       password: password
       initial-size: 1
@@ -29,9 +29,16 @@ regCenter:
   namespace: elastic-job-lite-springboot
 
 simpleJob:
-  cron: 0/10 * * * * ?
-  shardingTotalCount: 1
+  cron: 0/20 * * * * ?
+  shardingTotalCount: 2
   listener: com.yliu.elasticjob.Listener.MyListener
+
+dataflowJob:
+  cron: 0/5 * * * * ?
+  shardingTotalCount: 2
+  listener: com.yliu.elasticjob.Listener.MyListener
+  shardingItemParameters: 0=Eveb,1=Odd
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

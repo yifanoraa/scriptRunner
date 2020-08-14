@@ -18,4 +18,18 @@
         </trim>
     </insert>
 
+    <update id="update">
+        update  <include refid="BASE_TABLE"/>
+        <set>
+            <if test="name != null">name=#{name},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="getUsers" resultType="com.yliu.elasticjob.Model.User">
+        SELECT * FROM
+        <include refid="BASE_TABLE"/>
+        WHERE id%2=#{shardNum}
+    </select>
+
 </mapper>

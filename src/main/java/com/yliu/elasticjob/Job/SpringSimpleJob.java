@@ -14,13 +14,13 @@ public class SpringSimpleJob implements SimpleJob {
     @Autowired
     UserService userService;
 
-    public static int usercount = 1;
+    public static int userCount = 1;
 
     @Override
     public void execute(final ShardingContext shardingContext) {
         User newUser = new User();
-        usercount += 1;
-        newUser.setName(String.valueOf(usercount));
+        userCount += 1;
+        newUser.setName(String.valueOf(userCount));
         userService.addUser(newUser);
         log.info("New user added ");
         log.info(String.format("------Thread ID: %s, Total Job count: %s, Current Shard: %s",
