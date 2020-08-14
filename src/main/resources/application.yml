@@ -29,7 +29,6 @@ regCenter:
   namespace: elastic-job-lite-springboot
 
 simpleJob:
-  id: 0
   failover: true
   cron: 0/1 * * * * ?
   shardingTotalCount: 4
