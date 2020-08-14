@@ -1,3 +1,2 @@
 # springboot-elasticjob
-
-## Sample code for springboot + elasticjob-lite integrated
+Sample code for springboot + elasticjob-lite integrated
