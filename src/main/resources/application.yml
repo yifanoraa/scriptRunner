@@ -29,15 +29,19 @@ regCenter:
   namespace: elastic-job-lite-springboot
 
 simpleJob:
-  cron: 0/20 * * * * ?
-  shardingTotalCount: 2
+  id: 0
+  failover: true
+  cron: 0/1 * * * * ?
+  shardingTotalCount: 4
+  shardingItemParameters: 0=A,1=B
   listener: com.yliu.elasticjob.Listener.MyListener
 
-dataflowJob:
-  cron: 0/5 * * * * ?
-  shardingTotalCount: 2
-  listener: com.yliu.elasticjob.Listener.MyListener
-  shardingItemParameters: 0=Eveb,1=Odd
+#dataflowJob:
+#  id: 1
+#  cron: 0/5 * * * * ?
+#  shardingTotalCount: 3
+#  listener: com.yliu.elasticjob.Listener.MyListener
+#  shardingItemParameters: 0=Three,1=Two,2=One
 
 
 mybatis:

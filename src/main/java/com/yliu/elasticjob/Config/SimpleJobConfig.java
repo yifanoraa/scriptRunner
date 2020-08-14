@@ -36,16 +36,17 @@ public class SimpleJobConfig {
     @Bean(initMethod = "init")
     public JobScheduler simpleJobScheduler(final SimpleJob simpleJob,
                                            @Value("${simpleJob.cron}") final String cron,
-                                           @Value("${simpleJob.shardingTotalCount}") final int shardingTotalCount) {
+                                           @Value("${simpleJob.shardingTotalCount}") final int shardingTotalCount,
+                                           @Value("${simpleJob.shardingItemParameters}") final String shardingItemParameters) {
         return new SpringJobScheduler(simpleJob, regCenter,
-                getLiteJobConfiguration(simpleJob.getClass(), cron, shardingTotalCount)
-                , jobEventConfiguration, myListener);
+                getLiteJobConfiguration(simpleJob.getClass(), cron, shardingTotalCount, shardingItemParameters)
+                , jobEventConfiguration);
     }
 
     private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass,
-                                                         final String cron, final int shardingTotalCount) {
+                                                         final String cron, final int shardingTotalCount, final String shardingItemParameters) {
         return LiteJobConfiguration.newBuilder(new SimpleJobConfiguration(JobCoreConfiguration.newBuilder(
-                jobClass.getName(), cron, shardingTotalCount).build(),
+                jobClass.getName(), cron, shardingTotalCount).shardingItemParameters(shardingItemParameters).failover(true).build(),
                 jobClass.getCanonicalName()))
                 .overwrite(true).build();
     }

@@ -29,7 +29,7 @@
     <select id="getUsers" resultType="com.yliu.elasticjob.Model.User">
         SELECT * FROM
         <include refid="BASE_TABLE"/>
-        WHERE id%2=#{shardNum}
+        WHERE id%3=#{shardNum}
     </select>
 
 </mapper>

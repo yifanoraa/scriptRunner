@@ -3,27 +3,25 @@ package com.yliu.elasticjob.Job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.yliu.elasticjob.Model.User;
-import com.yliu.elasticjob.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class SpringSimpleJob implements SimpleJob {
 
-    @Autowired
-    UserService userService;
+    private static AtomicInteger count = new AtomicInteger(0);
 
-    public static int userCount = 1;
 
+    /**
+     * Simple Job
+     *
+     * @param shardingContext
+     */
     @Override
     public void execute(final ShardingContext shardingContext) {
-        User newUser = new User();
-        userCount += 1;
-        newUser.setName(String.valueOf(userCount));
-        userService.addUser(newUser);
-        log.info("New user added ");
-        log.info(String.format("------Thread ID: %s, Total Job count: %s, Current Shard: %s",
-                Thread.currentThread().getId(), shardingContext.getShardingTotalCount(), shardingContext.getShardingItem()));
+
+        log.info("Total job count: {}, current shard: {}", shardingContext.getShardingTotalCount(),
+                shardingContext.getShardingItem());
     }
 }

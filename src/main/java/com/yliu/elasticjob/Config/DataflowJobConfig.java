@@ -33,7 +33,7 @@ public class DataflowJobConfig {
         return new UpdateJob();
     }
 
-    @Bean(initMethod = "init")
+    //@Bean(initMethod = "init")
     public JobScheduler dataFlowJobScheduler(final DataflowJob<?> userDataflowJob, @Value("${dataflowJob.cron}") final String cron,
                                              @Value("${dataflowJob.shardingTotalCount}") final int shardingTotalCount,
                                              @Value("${dataflowJob.shardingItemParameters}") final String shardingItemParameters){
