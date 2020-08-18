@@ -7,10 +7,19 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       filters: stat
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
-      username: root
-      password: password
+#      url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+#      username: root
+#      password: password
+      one:  #数据源1
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+        username: root
+        password: password
+        driver-class-name: com.mysql.jdbc.Driver
+      two: #数据源2
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/mytest1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+        username: root
+        password: password
+        driver-class-name: com.mysql.jdbc.Driver
       initial-size: 1
       min-idle: 1
       max-active: 20
@@ -23,24 +32,18 @@ spring:
       test-on-return: false
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
+    initialization-mode: always
+    schema: classpath:sql/init.sql
 
 regCenter:
   serverList: localhost:2181
   namespace: elastic-job-lite-springboot
 
-simpleJob:
-  failover: true
-  cron: 0/1 * * * * ?
-  shardingTotalCount: 4
-  shardingItemParameters: 0=A,1=B
-  listener: com.yliu.elasticjob.Listener.MyListener
-
-#dataflowJob:
-#  id: 1
-#  cron: 0/5 * * * * ?
-#  shardingTotalCount: 3
+dataflowJob:
+  cron: 0/5 * * * * ?
+  shardingTotalCount: 1
 #  listener: com.yliu.elasticjob.Listener.MyListener
-#  shardingItemParameters: 0=Three,1=Two,2=One
+  shardingItemParameters: 0=One
 
 
 mybatis:

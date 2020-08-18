@@ -1,16 +1,14 @@
 package com.yliu.elasticjob.Mapper;
 
-import com.yliu.elasticjob.Model.User;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yliu.elasticjob.Model.JobScheduled;
 import org.springframework.stereotype.Component;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
-
 @Component
-public interface UserMapper{
-    int insert(User user);
+public interface UserMapper extends BaseMapper<JobScheduled> {
+
+    int insert(JobScheduled jobScheduled);
 
     int update(int id, String name);
 
-    List<User> getUsers(int sharding);
 }

@@ -2,40 +2,58 @@ package com.yliu.elasticjob.Job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import com.yliu.elasticjob.Model.User;
+import com.dangdang.ddframe.job.api.simple.SimpleJob;
+import com.yliu.elasticjob.Dynamic.AddNewJob;
+import com.yliu.elasticjob.Model.JobScheduled;
 import com.yliu.elasticjob.Service.UserService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 @Slf4j
-public class UpdateJob implements DataflowJob<User> {
+public class UpdateJob implements DataflowJob<JobScheduled> {
     @Autowired
     UserService userService;
+    @Autowired
+    AddNewJob addNewJob;
 
     @Override
-    public List<User> fetchData(ShardingContext shardingContext) {
+    public List<JobScheduled> fetchData(ShardingContext shardingContext) {
+        log.info("Fetch data", shardingContext.getShardingItem());
+
         switch (shardingContext.getShardingItem()) {
             case 0:
-                return userService.getDataBySharding(0);
-            case 1:
-                return userService.getDataBySharding(1);
+                return  userService.getData();
+//            case 1:
+//                return userService.getDataBySharding(1);
         }
-        return null;
+        return new LinkedList<JobScheduled>();
     }
 
-    @SneakyThrows
-    @Override
-    synchronized public void processData(ShardingContext shardingContext, List<User> data) {
-        log.info("<========= In shard {} with parameter {} ==========>", shardingContext.getShardingItem() , shardingContext.getShardingParameter());
 
-        for(User user: data){
-            log.info("User name: {}",user.getName());
+    @Override
+    @SneakyThrows
+    synchronized public void processData(ShardingContext shardingContext, List<JobScheduled> data) {
+        for(JobScheduled jobScheduled : data){
+            if(jobScheduled == null){
+                return;
+            }
+//            log.info("Job name: {}",user.getName());
+            addNewJob.addJob(jobScheduled.getName(),
+                    (SimpleJob) Class.forName("com.yliu.elasticjob.Job." + jobScheduled.getName()).newInstance(),
+                    jobScheduled.getCron(),
+                    1, "1=one");
+            userService.deleteUser(jobScheduled);
         }
-        Thread.sleep(5000);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 }

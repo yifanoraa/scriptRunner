@@ -1,4 +1,4 @@
-package com.yliu.elasticjob.Config;
+package com.yliu.elasticjob.Config.JobConfig;
 
 
 import com.dangdang.ddframe.job.event.JobEventConfiguration;

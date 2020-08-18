@@ -1,14 +1,17 @@
 package com.yliu.elasticjob.Service;
 
-import com.yliu.elasticjob.Model.User;
+import com.yliu.elasticjob.Model.JobScheduled;
+
 import java.util.List;
 
 public interface UserService {
 
-    int addUser(User user);
+    int addUser(JobScheduled jobScheduled);
 
     int updateUserName(int id, String name);
 
-    List<User> getDataBySharding(int shardNum);
+    void deleteUser(JobScheduled jobScheduled);
+
+    List<JobScheduled> getData();
 }
 

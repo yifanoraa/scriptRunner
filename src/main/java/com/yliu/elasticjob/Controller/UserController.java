@@ -1,6 +1,6 @@
 package com.yliu.elasticjob.Controller;
 
-import com.yliu.elasticjob.Model.User;
+import com.yliu.elasticjob.Model.JobScheduled;
 import com.yliu.elasticjob.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public void addNewUser(@RequestBody User user){
-        log.info("Got user parameter: {}", user.getName());
-        service.addUser(user);
+    public void addNewUser(@RequestBody JobScheduled jobScheduled){
+        log.info("Got user parameter: {}", jobScheduled.getName());
+        service.addUser(jobScheduled);
 
     }
 
@@ -35,10 +35,10 @@ public class UserController {
     }
 
     @GetMapping("/byshard")
-    public List<User> fetchUser(@RequestParam(name = "shardNum", required = true)
+    public List<JobScheduled> fetchUser(@RequestParam(name = "shardNum", required = true)
                                             int shardNum){
         log.info("Got shard number: {}", shardNum);
-        List<User> dataFetched = service.getDataBySharding(shardNum);
+        List<JobScheduled> dataFetched = service.getData();
         return dataFetched;
     }
 }
