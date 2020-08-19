@@ -1,7 +1,7 @@
 package com.yliu.elasticjob.Controller;
 
 import com.yliu.elasticjob.Model.JobScheduled;
-import com.yliu.elasticjob.Service.UserService;
+import com.yliu.elasticjob.Service.JobService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +13,13 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
     @Autowired
-    UserService service;
+    JobService service;
 
 
     @PostMapping("/add")
     public void addNewUser(@RequestBody JobScheduled jobScheduled){
         log.info("Got user parameter: {}", jobScheduled.getName());
-        service.addUser(jobScheduled);
+        service.addJob(jobScheduled);
 
     }
 
@@ -30,7 +30,7 @@ public class UserController {
                            @RequestParam(name = "name", required = true)
                                        String name){
         log.info("Got user parameter: {} : {}", id, name);
-        service.updateUserName(id, name);
+        service.updateJob(id, name);
 
     }
 

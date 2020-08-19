@@ -5,7 +5,7 @@ import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.yliu.elasticjob.Dynamic.AddNewJob;
 import com.yliu.elasticjob.Model.JobScheduled;
-import com.yliu.elasticjob.Service.UserService;
+import com.yliu.elasticjob.Service.JobService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class UpdateJob implements DataflowJob<JobScheduled> {
     @Autowired
-    UserService userService;
+    JobService jobService;
     @Autowired
     AddNewJob addNewJob;
 
@@ -27,7 +27,7 @@ public class UpdateJob implements DataflowJob<JobScheduled> {
 
         switch (shardingContext.getShardingItem()) {
             case 0:
-                return  userService.getData();
+                return  jobService.getData();
 //            case 1:
 //                return userService.getDataBySharding(1);
         }
@@ -47,7 +47,7 @@ public class UpdateJob implements DataflowJob<JobScheduled> {
                     (SimpleJob) Class.forName("com.yliu.elasticjob.Job." + jobScheduled.getName()).newInstance(),
                     jobScheduled.getCron(),
                     1, "1=one");
-            userService.deleteUser(jobScheduled);
+            jobService.deleteJob(jobScheduled);
         }
         try {
             Thread.sleep(5000);

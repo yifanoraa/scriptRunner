@@ -5,7 +5,7 @@ import com.yliu.elasticjob.Model.JobScheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface UserMapper extends BaseMapper<JobScheduled> {
+public interface JobMapper extends BaseMapper<JobScheduled> {
 
     int insert(JobScheduled jobScheduled);
 

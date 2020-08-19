@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 public class DataSourceOneConfig {
 
     @Bean("one")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.one")
-    public javax.sql.DataSource oneDataSource(){
+    @ConfigurationProperties(prefix = "spring.datasource.one")
+    public DataSource oneDataSource(){
         return DataSourceBuilder.create().build();
     }
 
@@ -30,7 +30,7 @@ public class DataSourceOneConfig {
     public SqlSessionFactory oneSqlSessionFactory(@Qualifier("one") DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean factoryOne = new MybatisSqlSessionFactoryBean();
         factoryOne.setDataSource(dataSource);
-        factoryOne.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+        factoryOne.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/JobMapper.xml"));
         return factoryOne.getObject();
     }
 

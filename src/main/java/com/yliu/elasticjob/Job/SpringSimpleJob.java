@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class SpringSimpleJob implements SimpleJob {
+public class SpringSimpleJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
 
     private static AtomicInteger count = new AtomicInteger(0);
 

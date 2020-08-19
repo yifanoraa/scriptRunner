@@ -1,7 +1,7 @@
 package com.yliu.elasticjob.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.yliu.elasticjob.Mapper.UserMapper;
+import com.yliu.elasticjob.Mapper.JobMapper;
 import com.yliu.elasticjob.Model.JobScheduled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,23 +10,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class JobServiceImpl implements JobService {
     @Autowired
-    UserMapper userMapper;
+    JobMapper jobMapper;
 
     @Override
-    public int addUser(JobScheduled jobScheduled) {
-        return userMapper.insert(jobScheduled);
+    public int addJob(JobScheduled jobScheduled) {
+        return jobMapper.insert(jobScheduled);
     }
 
     @Override
-    public int updateUserName(int id, String name) {
-        return userMapper.update(id, name);
+    public int updateJob(int id, String name) {
+        return jobMapper.update(id, name);
     }
 
     @Override
-    public void deleteUser(JobScheduled jobScheduled) {
-        userMapper.deleteById(jobScheduled.getId());
+    public void deleteJob(JobScheduled jobScheduled) {
+        jobMapper.deleteById(jobScheduled.getId());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
                 .last("limit 1")
                 .orderByDesc("id");
         List<JobScheduled> jobScheduleds = new LinkedList<>();
-        jobScheduleds.add(userMapper.selectOne(queryWrapper));
+        jobScheduleds.add(jobMapper.selectOne(queryWrapper));
         return jobScheduleds;
     }
 
