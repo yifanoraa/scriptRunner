@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yliu.elasticjob.Mapper.UserMapper" >
+<mapper namespace="com.yliu.elasticjob.Mapper.JobMapper" >
     <sql id="BASE_TABLE">
-    testuser
+    job_scheduled
   </sql>
     <sql id="BASE_COLUMN">
     id,name
   </sql>
-    <insert id="insert" parameterType="com.yliu.elasticjob.Model.User" >
+    <insert id="insert" parameterType="com.yliu.elasticjob.Model.JobScheduled" >
         INSERT INTO
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            name
+            name, cron
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{name}
+            #{name}, #{cron}
         </trim>
     </insert>
 
     <update id="update">
         update  <include refid="BASE_TABLE"/>
         <set>
-            <if test="name != null">name=#{name},</if>
+            <if test="name != null">name=#{name}</if>
         </set>
         where id=#{id}
     </update>
 
-    <select id="getUsers" resultType="com.yliu.elasticjob.Model.User">
-        SELECT * FROM
-        <include refid="BASE_TABLE"/>
-        WHERE id%3=#{shardNum}
-    </select>
 
 </mapper>

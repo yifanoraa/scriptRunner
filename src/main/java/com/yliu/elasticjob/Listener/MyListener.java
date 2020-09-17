@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class MyListener implements ElasticJobListener {
     @Override
     public void beforeJobExecuted(ShardingContexts shardingContexts) {
-        log.info("Listening -- before job executed do something");
+        //log.info("Listening -- before job executed do something");
     }
 
     @Override
     public void afterJobExecuted(ShardingContexts shardingContexts) {
-        log.info("Listening -- after job executed do something");
+        //log.info("Listening -- after job executed do something");
     }
 }

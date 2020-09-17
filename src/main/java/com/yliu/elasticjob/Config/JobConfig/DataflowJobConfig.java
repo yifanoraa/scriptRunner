@@ -1,4 +1,4 @@
-package com.yliu.elasticjob.Config;
+package com.yliu.elasticjob.Config.JobConfig;
 
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
@@ -33,18 +33,18 @@ public class DataflowJobConfig {
         return new UpdateJob();
     }
 
-    //@Bean(initMethod = "init")
-    public JobScheduler dataFlowJobScheduler(final DataflowJob<?> userDataflowJob, @Value("${dataflowJob.cron}") final String cron,
+    @Bean(initMethod = "init")
+    public JobScheduler dataFlowJobScheduler(final DataflowJob<?> dataFlowJob, @Value("${dataflowJob.cron}") final String cron,
                                              @Value("${dataflowJob.shardingTotalCount}") final int shardingTotalCount,
                                              @Value("${dataflowJob.shardingItemParameters}") final String shardingItemParameters){
-        return new SpringJobScheduler(userDataflowJob, regCenter,
-                getLiteJobConfiguration(userDataflowJob.getClass(), cron, shardingTotalCount, shardingItemParameters)
+        return new SpringJobScheduler(dataFlowJob, regCenter,
+                getLiteJobConfiguration(dataFlowJob.getClass(), cron, shardingTotalCount, shardingItemParameters)
                 , jobEventConfiguration, myListener);
     }
 
     private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends DataflowJob> jobClass, final String cron, final int shardingTotalCount, final String shardingItemParameters) {
         return LiteJobConfiguration.newBuilder(new DataflowJobConfiguration(JobCoreConfiguration.newBuilder(
-                jobClass.getName(), cron, shardingTotalCount).shardingItemParameters(shardingItemParameters).build(), jobClass.getCanonicalName(), true)).overwrite(true).build();
+                jobClass.getName(), cron, shardingTotalCount).shardingItemParameters(shardingItemParameters).build(), jobClass.getCanonicalName(), false)).overwrite(true).build();
     }
 
 }
